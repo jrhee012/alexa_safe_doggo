@@ -1,9 +1,7 @@
-'use strict';
-
-const Alexa = require('ask-sdk');
+import * as Alexa from 'ask-sdk';
 
 const msg = {
-    welcome: 'Welcome to Spell of the Day! You can say: "Word of the Day"'
+    welcome: 'Welcome to Safe Doggo!',
     exit: 'Goodbye!',
     fallback: 'Hm... Can you say that again?',
     help: 'Help!',
@@ -15,15 +13,24 @@ const LaunchRequestHandler = {
         return request.type === 'LaunchRequest';
     },
     handle(handlerInput) {
-
-    }
+        const speech = msg.welcome;
+        return handlerInput.responseBuilder
+            .speak(speech)
+            .reprompt(speech)
+            .getResponse();
+    },
 };
 
 const IntentHandler = {
     canHandle(handlerInput) {
         const { request } = handlerInput.requestEnvelope;
         return request.type === 'IntentRequest'
-            && request.intent.name === 'AnswerIntent';
+            && (request.intent.name === 'AnswerIntent'
+                || request.intent.name === '');
+    },
+    handle(handlerInput) {
+        const { request } = handlerInput.requestEnvelope;
+        const intentName = request.intent.name;
     },
 };
 
@@ -105,9 +112,10 @@ const ErrorHandler = {
 
 const skillBuilder = Alexa.SkillBuilders.custom();
 
-exports.handler = skillBuilder
+export const handler = skillBuilder
     .addRequestHandlers(
-        GetNewFactHandler,
+        LaunchRequestHandler,
+        IntentHandler,
         HelpHandler,
         ExitHandler,
         FallbackHandler,

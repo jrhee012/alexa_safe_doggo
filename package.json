@@ -4,11 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel src -d build/src && cp package.json build/ && cd build/ && npm install --production && zip -r -X ../build.zip ."
   },
   "author": "Jaehyuk Rhee",
   "license": "ISC",
   "dependencies": {
     "ask-sdk": "^2.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }

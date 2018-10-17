@@ -2,3 +2,5 @@ node_modules/
 .vs_code/
 *.log
 .DS_Store
+build/
+build.zip
